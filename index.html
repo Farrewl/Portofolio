@@ -1,65 +1,479 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Ibnu Farrel</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibnu Farrel Athaillah Firdaus — Portofolio</title>
+<meta name="description" content="Portofolio Ibnu Farrel Athaillah Firdaus, mahasiswa Informatika Universitas Diponegoro dengan minat di cyber security, software development, dan robotika.">
+<meta name="theme-color" content="#05070a">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ibnu Farrel Athaillah Firdaus — Portofolio">
+<meta property="og:description" content="Mahasiswa Informatika Undip — cyber security, software development, robotika.">
+<meta property="og:image" content="profile.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23FF6500' stroke-width='7'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%23FF6500'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="bg-gradient"></div>
 
-    <header class="fade-in">
-        <div class="profile-wrapper">
-            <div class="profile-glow"></div>
-            <img src="DSC02334.JPG" alt="Ibnu Farrel" class="profile-pic">
-        </div>
-        <h1>Ibnu Farrel Athaillah Firdaus</h1>
-        <p class="status">Undergraduate Informatics Student</p>
-        
-        <div class="action-buttons">
-            <a href="CV_Ibnu Farrel Athaillah Firdaus.pdf" target="_blank" class="btn btn-primary">
-                <i class="fas fa-file-pdf"></i> View PDF CV
-            </a>
-            <a href="#work" class="btn btn-outline">View Projects</a>
-        </div>
-    </header>
+<a class="skip-link" href="#konten-utama">Lewati ke konten utama</a>
 
-    <main>
-        <section id="work" class="reveal">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="project-grid">
-                <a href="https://farrewl.github.io/Web_ASV/" target="_blank" class="project-card">
-                    <div class="card-content">
-                        <h3>Aterkia ASV Web</h3>
-                        <p>Platform computer vision robot kapal tim Aterkia ASV Undip untuk memantau status kapal.</p>
-                        <span class="tags">Html • CSS • JavaScript • Python</span>
+<!-- ambient full-page starfield (cheap, css-only) -->
+<div class="stars-layer" aria-hidden="true"></div>
+<!-- film grain overlay -->
+<div class="grain-layer" aria-hidden="true"></div>
+
+<!-- preloader -->
+<div id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+        <span class="preloader__label">MEMBANGUN KONEKSI</span>
+        <div class="preloader__bar"><span id="preloaderFill"></span></div>
+        <span class="preloader__pct" id="preloaderPct">0%</span>
+    </div>
+</div>
+
+<!-- custom cursor (enabled via JS only on fine pointers) -->
+<div id="cursorDot" aria-hidden="true"></div>
+<div id="cursorRing" aria-hidden="true"></div>
+
+<!-- scroll progress -->
+<div class="scroll-progress" aria-hidden="true"><span id="scrollProgressFill"></span></div>
+
+<!-- top bar -->
+<header class="topbar" id="topbar">
+    <a href="#hero" class="topbar__logo" aria-label="Kembali ke beranda">IF<span>.</span></a>
+    <div class="topbar__meta" id="topbarClock">
+        <span class="topbar__dot" aria-hidden="true"></span>
+        <span id="clockLocation">SOUTH TANGERANG, ID</span>
+        <span class="topbar__sep">·</span>
+        <span id="clockTime">--:--:--</span>
+        <span class="topbar__sep">WIB</span>
+    </div>
+</header>
+
+<!-- side dot navigation -->
+<nav class="dot-nav" aria-label="Navigasi bagian">
+    <ul>
+        <li><a href="#hero" data-section="hero"><span class="dot-nav__dot"></span><span class="dot-nav__label">Beranda</span></a></li>
+        <li><a href="#tentang" data-section="tentang"><span class="dot-nav__dot"></span><span class="dot-nav__label">Tentang</span></a></li>
+        <li><a href="#perjalanan" data-section="perjalanan"><span class="dot-nav__dot"></span><span class="dot-nav__label">Perjalanan</span></a></li>
+        <li><a href="#proyek" data-section="proyek"><span class="dot-nav__dot"></span><span class="dot-nav__label">Proyek</span></a></li>
+        <li><a href="#penghargaan" data-section="penghargaan"><span class="dot-nav__dot"></span><span class="dot-nav__label">Penghargaan</span></a></li>
+        <li><a href="#kontak" data-section="kontak"><span class="dot-nav__dot"></span><span class="dot-nav__label">Kontak</span></a></li>
+    </ul>
+</nav>
+
+<button id="backToTop" aria-label="Kembali ke atas">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+</button>
+
+<main id="konten-utama">
+
+    <!-- ============ HERO ============ -->
+    <section id="hero" class="hero">
+        <canvas id="starCanvas" class="hero__canvas" aria-hidden="true"></canvas>
+        <div class="hero__glow" aria-hidden="true"></div>
+
+        <div class="hero__content">
+            <p class="hero__eyebrow reveal-item hero-reveal">MAHASISWA INFORMATIKA · UNIVERSITAS DIPONEGORO</p>
+
+            <div class="profile reveal-item hero-reveal">
+                <svg class="profile__rings" viewBox="0 0 300 300" aria-hidden="true">
+                    <circle class="ring ring--1" cx="150" cy="150" r="145"/>
+                    <circle class="ring ring--2" cx="150" cy="150" r="128" stroke-dasharray="4 10"/>
+                    <circle class="ring ring--3" cx="150" cy="150" r="112"/>
+                    <g class="ring__satellite">
+                        <circle cx="150" cy="6" r="4.5"/>
+                        <animateTransform attributeName="transform" type="rotate" from="0 150 150" to="360 150 150" dur="14s" repeatCount="indefinite"/>
+                    </g>
+                </svg>
+                <div class="profile__sweep" aria-hidden="true"></div>
+                <div class="profile__photo-wrap">
+                    <img src="DSC02334.JPG" alt="Foto Ibnu Farrel Athaillah Firdaus" class="profile__photo" width="733" height="1100">
+                </div>
+            </div>
+
+            <h1 class="hero__name reveal-item hero-reveal">
+                <span class="line"><span class="word">Ibnu</span> <span class="word">Farrel</span></span>
+                <span class="line"><span class="word">Athaillah</span> <span class="word">Firdaus</span></span>
+            </h1>
+
+            <p class="hero__status reveal-item hero-reveal">
+                <span class="typed" id="typedStatus"></span><span class="type-cursor">_</span>
+            </p>
+
+            <div class="hero__cta reveal-item hero-reveal">
+                <a href="CV - Ibnu Farrel Athaillah Firdaus.pdf" target="_blank" rel="noopener" class="btn btn-primary magnetic">
+                    <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Lihat CV
+                </a>
+                <a href="#proyek" class="btn btn-outline magnetic" id="viewProjectsBtn">
+                    <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Lihat Proyek
+                </a>
+            </div>
+        </div>
+
+        <div class="hero__scroll-cue" aria-hidden="true">
+            <span></span>
+            <div class="scroll-cue__line"><i></i></div>
+        </div>
+    </section>
+
+    <!-- ============ TENTANG ============ -->
+    <section id="tentang" class="section">
+        <div class="container">
+            <p class="eyebrow reveal-item">01 · TENTANG</p>
+            <h2 class="section__title reveal-item">Tentang Saya</h2>
+
+            <div class="about__grid">
+                <div class="about__bio reveal-item">
+                    <p>Mahasiswa baru Program Studi Informatika, Universitas Diponegoro, dengan minat besar pada <strong>cyber security</strong> dan <strong>software development</strong>. Memiliki dasar keterampilan pemrograman web serta aktif dalam riset robotik bersama tim kapal ASV kampus.</p>
+                    <p>Terbiasa belajar mandiri lewat proyek-proyek kecil untuk memperluas wawasan teknologi, sekaligus aktif berorganisasi dan berkompetisi — mulai dari lapangan taekwondo hingga kompetisi sains informatika.</p>
+
+                    <div class="about__skills">
+                        <div class="skills__group">
+                            <span class="skills__label"><i class="fa-solid fa-code" aria-hidden="true"></i> Bahasa &amp; Teknologi</span>
+                            <div class="skills__chips">
+                                <span class="skill-chip">HTML</span>
+                                <span class="skill-chip">CSS</span>
+                                <span class="skill-chip">JavaScript</span>
+                                <span class="skill-chip">Python</span>
+                                <span class="skill-chip">Node.js</span>
+                            </div>
+                        </div>
+                        <div class="skills__group">
+                            <span class="skills__label"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Bidang Minat</span>
+                            <div class="skills__chips">
+                                <span class="skill-chip">Cyber Security</span>
+                                <span class="skill-chip">Software Development</span>
+                                <span class="skill-chip">Robotika</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about__stats">
+                    <div class="stat reveal-item">
+                        <span class="stat__value" data-target="3.89" data-decimals="2">0.00</span>
+                        <span class="stat__label">IPK Kumulatif<em>dari skala 4.00</em></span>
+                    </div>
+                    <div class="stat reveal-item">
+                        <span class="stat__value" data-target="5" data-decimals="0">0</span>
+                        <span class="stat__label">Pengalaman Aktif<em>kerja &amp; organisasi</em></span>
+                    </div>
+                    <div class="stat reveal-item">
+                        <span class="stat__value" data-target="6" data-decimals="0">0</span>
+                        <span class="stat__label">Penghargaan<em>akademik &amp; non-akademik</em></span>
+                    </div>
+                    <div class="stat reveal-item">
+                        <span class="stat__value" data-target="2" data-decimals="0">0</span>
+                        <span class="stat__label">Proyek Web<em>dipublikasikan</em></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PERJALANAN ============ -->
+    <section id="perjalanan" class="section">
+        <div class="container">
+            <p class="eyebrow reveal-item">02 · PERJALANAN</p>
+            <h2 class="section__title reveal-item">Catatan Perjalanan</h2>
+            <p class="section__lede reveal-item">Rangkaian pendidikan, pekerjaan, dan organisasi yang membentuk arah saat ini — disusun secara kronologis.</p>
+
+            <div class="timeline">
+                <div class="timeline__line"><span class="timeline__line-fill" id="timelineFill"></span></div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Jun 2022 – Jun 2025</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Pendidikan</span>
+                        <h3>SMAS Al-Mubarak</h3>
+                        <p class="timeline-item__org">Tangerang Selatan · Jurusan IPA</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Jul 2024 – Sekarang</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Pekerjaan</span>
+                        <h3>Pelatih Atlet Kyorugi</h3>
+                        <p class="timeline-item__org">Java Eagle Taekwondo Academy · Tangerang Selatan</p>
+                        <p class="timeline-item__desc">Menyusun program latihan terstruktur dan membimbing atlet meningkatkan teknik, strategi, serta mental bertanding.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Okt 2024</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-users" aria-hidden="true"></i> Organisasi</span>
+                        <h3>Anggota Seksi Peralatan</h3>
+                        <p class="timeline-item__org">Albin Leadership Training — OSISMPK Albin</p>
+                        <p class="timeline-item__desc">Mengoordinasikan kesiapan logistik dan kelayakan peralatan sebelum serta selama acara berlangsung.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Feb 2025 – Sekarang</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-users" aria-hidden="true"></i> Organisasi</span>
+                        <h3>Anggota Elektrik Program — Program ASV Aterkia</h3>
+                        <p class="timeline-item__org">Undip Robotics Development Center · Semarang</p>
+                        <p class="timeline-item__desc">Mengintegrasikan hardware dan program robot kapal, serta riset lintas divisi untuk optimalisasi performa ASV.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Feb 2025 – Sekarang</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-users" aria-hidden="true"></i> Organisasi</span>
+                        <h3>Anggota Divisi Ekokeu</h3>
+                        <p class="timeline-item__org">UKM Taekwondo Undip · Semarang</p>
+                        <p class="timeline-item__desc">Mengatur arus dana UKM dan menghubungi sponsor untuk kebutuhan latihan maupun kompetisi.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Agu 2025 – Agu 2029*</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Pendidikan</span>
+                        <h3>Universitas Diponegoro</h3>
+                        <p class="timeline-item__org">Sarjana Informatika · IPK 3.89/4.00</p>
+                        <p class="timeline-item__desc">*Estimasi kelulusan.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-item">
+                    <span class="timeline-item__dot"></span>
+                    <span class="timeline-item__date">Des 2025 – Mar 2026</span>
+                    <div class="timeline-item__card">
+                        <span class="timeline-item__tag"><i class="fa-solid fa-users" aria-hidden="true"></i> Organisasi</span>
+                        <h3>Anggota Divisi Keamanan</h3>
+                        <p class="timeline-item__org">Keluarga Mahasiswa Banten — Roadshow KMB · Tangerang Selatan</p>
+                        <p class="timeline-item__desc">Mengoordinasikan panitia lapangan agar sesuai rundown serta mencatat kehadiran dan evaluasi kegiatan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PROYEK ============ -->
+    <section id="proyek" class="section">
+        <div class="container">
+            <p class="eyebrow reveal-item">03 · PROYEK</p>
+            <h2 class="section__title reveal-item">Proyek Unggulan</h2>
+            <p class="section__lede reveal-item">Dua platform web yang dibangun dan dipublikasikan secara mandiri.</p>
+
+            <div class="projects__grid">
+                <a href="https://farrewl.github.io/Web_ASV/" target="_blank" rel="noopener" class="project-card tilt reveal-item">
+                    <div class="project-card__visual">
+                        <svg viewBox="0 0 400 240" aria-hidden="true">
+                            <rect x="0" y="0" width="400" height="240" rx="14" class="pc-bg"/>
+                            <circle cx="20" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="34" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="48" cy="18" r="4" class="pc-dot"/>
+                            <text x="70" y="22" class="pc-url">farrewl.github.io/Web_ASV</text>
+                            <line x1="0" y1="34" x2="400" y2="34" class="pc-rule"/>
+                            <g transform="translate(200,150)">
+                                <circle r="70" class="radar-ring"/>
+                                <circle r="48" class="radar-ring"/>
+                                <circle r="26" class="radar-ring"/>
+                                <line x1="0" y1="0" x2="0" y2="-70" class="radar-cross"/>
+                                <line x1="-70" y1="0" x2="70" y2="0" class="radar-cross"/>
+                                <g class="radar-sweep">
+                                    <path d="M0 0 L0 -70 A70 70 0 0 1 49.5 -49.5 Z"/>
+                                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="4s" repeatCount="indefinite"/>
+                                </g>
+                                <circle cx="30" cy="-20" r="3.5" class="radar-blip radar-blip--a"/>
+                                <circle cx="-40" cy="15" r="3.5" class="radar-blip radar-blip--b"/>
+                                <path d="M-14 6 L0 -12 L14 6 L8 6 L8 14 L-8 14 L-8 6 Z" class="pc-boat"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="project-card__body">
+                        <h3>Aterkia ASV Web <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></h3>
+                        <p>Platform computer vision robot kapal tim Aterkia ASV Undip untuk memantau status kapal secara real-time.</p>
+                        <div class="project-card__tags">
+                            <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Python</span>
+                        </div>
                     </div>
                 </a>
-                <a href="https://farrewl.github.io/Convertly/" target="_blank" class="project-card">
-                    <div class="card-content">
-                        <h3>Convertly</h3>
-                        <p>Platform untuk mengonversi dokumen ke berbagai format dengan mudah.</p>
-                        <span class="tags">Html • CSS • JavaScript</span>
+
+            <div class="projects__grid">
+                <a href="https://compfest-soft-eng.vercel.app/" target="_blank" rel="noopener" class="project-card tilt reveal-item">
+                    <div class="project-card__visual">
+                        <svg viewBox="0 0 400 240" aria-hidden="true">
+                            <rect x="0" y="0" width="400" height="240" rx="14" class="pc-bg"/>
+                            <circle cx="20" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="34" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="48" cy="18" r="4" class="pc-dot"/>
+                            <text x="70" y="22" class="pc-url">compfest-soft-eng.vercel.app</text>
+                            <line x1="0" y1="34" x2="400" y2="34" class="pc-rule"/>
+                            <g transform="translate(200,150)">
+                                <circle r="70" class="radar-ring"/>
+                                <circle r="48" class="radar-ring"/>
+                                <circle r="26" class="radar-ring"/>
+                                <line x1="0" y1="0" x2="0" y2="-70" class="radar-cross"/>
+                                <line x1="-70" y1="0" x2="70" y2="0" class="radar-cross"/>
+                                <g class="radar-sweep">
+                                    <path d="M0 0 L0 -70 A70 70 0 0 1 49.5 -49.5 Z"/>
+                                    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="4s" repeatCount="indefinite"/>
+                                </g>
+                                <circle cx="30" cy="-20" r="3.5" class="radar-blip radar-blip--a"/>
+                                <circle cx="-40" cy="15" r="3.5" class="radar-blip radar-blip--b"/>
+                                <path d="M-14 6 L0 -12 L14 6 L8 6 L8 14 L-8 14 L-8 6 Z" class="pc-boat"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="project-card__body">
+                        <h3>Seapedia <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></h3>
+                        <p>Platform Marketplace multi-peran - menghubungkan Buyer, Seller, dan Driver dalam satu ekosistem. Dibuat untuk COMPFEST 18 Software Engineering Academy Technical Challenge.</p>
+                        <div class="project-card__tags">
+                            <span class="tag">React</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">HTML</span><span class="tag">node.js</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://farrewl.github.io/Convertly/" target="_blank" rel="noopener" class="project-card tilt reveal-item">
+                    <div class="project-card__visual">
+                        <svg viewBox="0 0 400 240" aria-hidden="true">
+                            <rect x="0" y="0" width="400" height="240" rx="14" class="pc-bg"/>
+                            <circle cx="20" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="34" cy="18" r="4" class="pc-dot"/>
+                            <circle cx="48" cy="18" r="4" class="pc-dot"/>
+                            <text x="70" y="22" class="pc-url">farrewl.github.io/Convertly</text>
+                            <line x1="0" y1="34" x2="400" y2="34" class="pc-rule"/>
+                            <g transform="translate(200,148)">
+                                <g transform="translate(-95,-35)">
+                                    <path d="M0 0 H55 L70 15 V90 H0 Z" class="pc-file"/>
+                                    <path d="M55 0 L70 15 H55 Z" class="pc-file-fold"/>
+                                    <text x="35" y="60" class="pc-file-label">DOCX</text>
+                                </g>
+                                <g transform="translate(40,-35)">
+                                    <path d="M0 0 H55 L70 15 V90 H0 Z" class="pc-file pc-file--alt"/>
+                                    <path d="M55 0 L70 15 H55 Z" class="pc-file-fold pc-file-fold--alt"/>
+                                    <text x="35" y="60" class="pc-file-label">PDF</text>
+                                </g>
+                                <path d="M-25 -5 C -5 -25, 20 -25, 40 -5" class="convert-arrow" marker-end="url(#arrowhead)"/>
+                                <path d="M40 25 C 20 45, -5 45, -25 25" class="convert-arrow" marker-end="url(#arrowhead)"/>
+                            </g>
+                            <defs>
+                                <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                                    <path d="M0,0 L6,3 L0,6 Z" class="convert-arrowhead"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="project-card__body">
+                        <h3>Convertly <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></h3>
+                        <p>Platform untuk mengonversi dokumen ke berbagai format dengan cepat lewat antarmuka yang sederhana.</p>
+                        <div class="project-card__tags">
+                            <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+                        </div>
                     </div>
                 </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="social" class="reveal">
-            <div class="social-container">
-                <a href="https://github.com/Farrewl" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/ibnufarrel?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.instagram.com/ibnufaths?igsh=MTR3b2NibW5leHdrcA==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+    <!-- ============ PENGHARGAAN ============ -->
+    <section id="penghargaan" class="section">
+        <div class="container">
+            <p class="eyebrow reveal-item">04 · PENGHARGAAN</p>
+            <h2 class="section__title reveal-item">Penghargaan &amp; Prestasi</h2>
+
+            <div class="achievements__grid">
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2025</span>
+                    <i class="fa-solid fa-medal achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Medali Perak Informatika</h3>
+                    <p>Prestasi Maju Indonesia</p>
+                </div>
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2025</span>
+                    <i class="fa-solid fa-trophy achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Juara 1 Nasional Taekwondo</h3>
+                    <p>Prabu Taekwondo Challenge 8</p>
+                </div>
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2024</span>
+                    <i class="fa-solid fa-trophy achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Runner Up Taekwondo</h3>
+                    <p>Piala Walikota Tangerang Selatan</p>
+                </div>
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2024</span>
+                    <i class="fa-solid fa-medal achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Medali Perunggu Informatika</h3>
+                    <p>Kejuaraan Sains Nasional</p>
+                </div>
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2023</span>
+                    <i class="fa-solid fa-trophy achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Juara 1 Nasional Taekwondo</h3>
+                    <p>Danrem 052/WKR</p>
+                </div>
+                <div class="achievement-card reveal-item">
+                    <span class="achievement-card__year">2023</span>
+                    <i class="fa-solid fa-trophy achievement-card__icon" aria-hidden="true"></i>
+                    <h3>Juara 2 Nasional Taekwondo</h3>
+                    <p>Prabu Taekwondo Challenge 6</p>
+                </div>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 Ibnu Farrel</p>
-    </footer>
+            <div class="webinars reveal-item">
+                <span class="webinars__label"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i> Seminar &amp; Kegiatan Terverifikasi</span>
+                <div class="webinars__list">
+                    <span class="webinar-tag">Kegiatan LKMM-PD Informatika Undip · 2025</span>
+                    <span class="webinar-tag">GORe FSM Undip · 2025</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- ============ KONTAK ============ -->
+    <section id="kontak" class="section section--contact">
+        <div class="container">
+            <p class="eyebrow reveal-item">05 · KONTAK</p>
+            <h2 class="section__title reveal-item">Mari Terhubung</h2>
+            <p class="section__lede reveal-item">Terbuka untuk diskusi, kolaborasi proyek, maupun kesempatan magang. Silakan hubungi lewat kanal berikut.</p>
+
+            <div class="contact__actions reveal-item">
+                <a href="mailto:ibnufirdaus2030@gmail.com" class="btn btn-primary magnetic">
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i> ibnufirdaus2030@gmail.com
+                </a>
+                <a href="https://wa.me/6281384619711" target="_blank" rel="noopener" class="btn btn-outline magnetic">
+                    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                </a>
+            </div>
+
+            <div class="social-row reveal-item">
+                <a href="https://github.com/Farrewl" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ibnufarrel" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/ibnufaths" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Ibnu Farrel Athaillah Firdaus</p>
+    <p class="site-footer__meta">Dibangun dengan HTML, CSS &amp; JavaScript</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
