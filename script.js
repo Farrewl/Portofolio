@@ -3,8 +3,207 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+    const hasAnime = typeof window.anime !== 'undefined';
     const html = document.documentElement;
 
+    const I18N = {
+        id: {
+            'meta.title': 'Ibnu Farrel Athaillah Firdaus — Portofolio',
+            'meta.desc': 'Portofolio Ibnu Farrel Athaillah Firdaus, mahasiswa Informatika Universitas Diponegoro dengan minat di cyber security, software development, machine learning, dan robotika.',
+            'meta.ogDesc': 'Mahasiswa Informatika Undip — cyber security, software development, machine learning, robotika.',
+            skip: 'Lewati ke konten utama',
+            preloader: 'LOADING...',
+            'nav.beranda': 'Beranda', 'nav.tentang': 'Tentang', 'nav.perjalanan': 'Perjalanan', 'nav.proyek': 'Proyek', 'nav.kontak': 'Kontak',
+            'aria.logo': 'Kembali ke beranda',
+            'aria.dotnav': 'Navigasi bagian',
+            'aria.backtotop': 'Kembali ke atas',
+            'aria.timelineFilter': 'Saring linimasa berdasarkan kategori',
+            'aria.copyEmail': 'Salin email',
+            'aria.copyWa': 'Salin nomor WhatsApp',
+            'hero.eyebrow': 'MAHASISWA INFORMATIKA · UNIVERSITAS DIPONEGORO',
+            'hero.photoAlt': 'Foto Ibnu Farrel Athaillah Firdaus',
+            'hero.status': 'Mahasiswa Informatika — Universitas Diponegoro',
+            'hero.cvBtn': 'Lihat CV',
+            'hero.projectsBtn': 'Lihat Proyek',
+            'about.eyebrow': '01 · TENTANG',
+            'about.title': 'Tentang Saya',
+            'about.bio1': 'Mahasiswa baru Program Studi Informatika, Universitas Diponegoro, dengan minat besar pada <strong>cyber security</strong> dan <strong>machine learning</strong>. Memiliki dasar keterampilan pemrograman web serta aktif dalam riset robotik bersama tim kapal ASV kampus.',
+            'about.bio2': 'Terbiasa belajar mandiri lewat proyek-proyek kecil untuk memperluas wawasan teknologi, sekaligus aktif berorganisasi dan berkompetisi — mulai dari lapangan taekwondo hingga kompetisi sains informatika.',
+            'about.skills.tech': 'Bahasa & Teknologi',
+            'about.skills.interest': 'Bidang Minat',
+            'skill.cybersec': 'Cyber Security', 'skill.swdev': 'Software Development', 'skill.robotics': 'Robotika',
+            'about.stat1.label': 'IP Kumulatif', 'about.stat1.sub': 'dari skala 4.00',
+            'about.stat2.label': 'Pengalaman Aktif', 'about.stat2.sub': 'kerja & organisasi',
+            'about.stat3.label': 'Penghargaan', 'about.stat3.sub': 'bidang informatika',
+            'about.stat4.label': 'Proyek Web', 'about.stat4.sub': 'dipublikasikan',
+            'journey.eyebrow': '02 · PERJALANAN',
+            'journey.title': 'Catatan Perjalanan',
+            'journey.lede': 'Rangkaian pendidikan, pengalaman, dan pencapaian di bidang informatika yang membentuk arah saat ini — disusun secara kronologis.',
+            'filter.all': 'Semua',
+            'filter.empty': 'Belum ada entri untuk kategori ini.',
+            'tag.pendidikan': 'Pendidikan', 'tag.pekerjaan': 'Pekerjaan', 'tag.organisasi': 'Organisasi', 'tag.kepanitiaan': 'Kepanitiaan', 'tag.penghargaan': 'Penghargaan',
+            'item1.title': 'SMAS Al-Mubarak', 'item1.org': 'Tangerang Selatan · Jurusan IPA',
+            'item2.title': 'Medali Perunggu Informatika', 'item2.org': 'Kejuaraan Sains Nasional',
+            'item3.title': 'Pelatih Atlet Kyorugi', 'item3.org': 'Java Eagle Taekwondo Academy · Tangerang Selatan',
+            'item3.desc': 'Menyusun program latihan terstruktur dan membimbing atlet meningkatkan teknik, strategi, serta mental bertanding.',
+            'item4.title': 'Anggota Seksi Peralatan', 'item4.org': 'Albin Leadership Training — OSISMPK Albin',
+            'item4.desc': 'Mengoordinasikan kesiapan logistik dan kelayakan peralatan sebelum serta selama acara berlangsung.',
+            'item5.title': 'Medali Perak Informatika', 'item5.org': 'Prestasi Maju Indonesia',
+            'item6.title': 'Anggota Elektrik — Program ASV Aterkia', 'item6.org': 'Undip Robotics Development Center · Semarang',
+            'item6.desc': 'Mengintegrasikan hardware dan program robot kapal, serta riset lintas divisi untuk optimalisasi performa ASV.',
+            'item7.title': 'Anggota Divisi Ekokeu', 'item7.org': 'UKM Taekwondo Undip · Semarang',
+            'item7.desc': 'Mengatur arus dana UKM dan menghubungi sponsor untuk kebutuhan latihan maupun kompetisi.',
+            'item8.title': 'Universitas Diponegoro', 'item8.org': 'Sarjana Informatika · IPK 3.88/4.00',
+            'item8.desc': '*Estimasi kelulusan.',
+            'item9.title': 'Anggota Divisi Keamanan', 'item9.org': 'Keluarga Mahasiswa Banten — Roadshow KMB · Tangerang Selatan',
+            'item9.desc': 'Mengoordinasikan panitia lapangan agar sesuai rundown serta mencatat kehadiran dan evaluasi kegiatan.',
+            'webinars.label': 'Seminar & Pelatihan Terverifikasi',
+            webinar1: 'Kegiatan LKMM-PD Informatika Undip · 2025',
+            webinar2: 'GORe FSM Undip · 2025',
+            'projects.eyebrow': '03 · PROYEK',
+            'projects.title': 'Proyek Unggulan',
+            'projects.lede': 'Tiga platform web yang dibangun dan dipublikasikan secara mandiri maupun tim.',
+            'proj1.desc': 'Platform computer vision robot kapal tim Aterkia ASV Undip untuk memantau status kapal secara real-time.',
+            'proj2.desc': 'Platform untuk mengonversi dokumen ke berbagai format dengan cepat lewat antarmuka yang sederhana.',
+            'proj3.desc': 'Platform marketplace multi-peran — menghubungkan Buyer, Seller, dan Driver dalam satu ekosistem. Dikerjakan secara individu sebagai syarat seleksi COMPFEST 18 Software Engineering Academy.',
+            'proj.demo': 'Demo', 'proj.code': 'Kode',
+            'contact.eyebrow': '04 · KONTAK',
+            'contact.title': 'Mari Terhubung',
+            'contact.lede': 'Terbuka untuk diskusi, kolaborasi proyek, maupun kesempatan magang. Silakan hubungi lewat kanal berikut.',
+            copied: 'Tersalin!',
+            'footer.built': 'Dibangun dengan HTML, CSS & JavaScript',
+            'aria.closePanel': 'Tutup panel detail',
+            'panel.badge.web-asv': 'Tim — Divisi Program',
+            'panel.badge.convertly': 'Proyek Individu',
+            'panel.badge.seapedia': 'Individu — Seleksi Academy',
+        },
+        en: {
+            'meta.title': 'Ibnu Farrel Athaillah Firdaus — Portfolio',
+            'meta.desc': 'Portfolio of Ibnu Farrel Athaillah Firdaus, an Informatics student at Universitas Diponegoro focused on cyber security, software development, and robotics.',
+            'meta.ogDesc': 'Informatics student at Undip — cyber security, software development, robotics.',
+            skip: 'Skip to main content',
+            preloader: 'LOADING...',
+            'nav.beranda': 'Home', 'nav.tentang': 'About', 'nav.perjalanan': 'Journey', 'nav.proyek': 'Projects', 'nav.kontak': 'Contact',
+            'aria.logo': 'Back to homepage',
+            'aria.dotnav': 'Section navigation',
+            'aria.backtotop': 'Back to top',
+            'aria.timelineFilter': 'Filter timeline by category',
+            'aria.copyEmail': 'Copy email address',
+            'aria.copyWa': 'Copy WhatsApp number',
+            'hero.eyebrow': 'INFORMATICS STUDENT · DIPONEGORO UNIVERSITY',
+            'hero.photoAlt': 'Photo of Ibnu Farrel Athaillah Firdaus',
+            'hero.status': 'Informatics Student — Diponegoro University',
+            'hero.cvBtn': 'View CV',
+            'hero.projectsBtn': 'View Projects',
+            'about.eyebrow': '01 · ABOUT',
+            'about.title': 'About Me',
+            'about.bio1': 'A first-year Informatics student at Universitas Diponegoro with a strong interest in <strong>cyber security</strong> and <strong>software development</strong>. I have foundational web development skills and stay active in robotics research with the campus ASV boat team.',
+            'about.bio2': 'I regularly teach myself through small independent projects to broaden my technical knowledge, while staying active in organizations and competitions — from the taekwondo mat to informatics science competitions.',
+            'about.skills.tech': 'Languages & Technologies',
+            'about.skills.interest': 'Areas of Interest',
+            'skill.cybersec': 'Cyber Security', 'skill.swdev': 'Software Development', 'skill.robotics': 'Robotics',
+            'about.stat1.label': 'Cumulative GPA', 'about.stat1.sub': 'out of 4.00 scale',
+            'about.stat2.label': 'Active Experience', 'about.stat2.sub': 'work & organizations',
+            'about.stat3.label': 'Awards', 'about.stat3.sub': 'in informatics',
+            'about.stat4.label': 'Web Projects', 'about.stat4.sub': 'published',
+            'journey.eyebrow': '02 · JOURNEY',
+            'journey.title': 'Journey Log',
+            'journey.lede': 'A chronological record of the education, experience, and informatics achievements that shaped where I am today.',
+            'filter.all': 'All',
+            'filter.empty': 'No entries in this category yet.',
+            'tag.pendidikan': 'Education', 'tag.pekerjaan': 'Work', 'tag.organisasi': 'Organization', 'tag.kepanitiaan': 'Committee', 'tag.penghargaan': 'Award',
+            'item1.title': 'SMAS Al-Mubarak', 'item1.org': 'South Tangerang · Science Major',
+            'item2.title': 'Bronze Medal in Informatics', 'item2.org': 'National Science Championship',
+            'item3.title': 'Kyorugi Athlete Coach', 'item3.org': 'Java Eagle Taekwondo Academy · South Tangerang',
+            'item3.desc': 'Designed structured training programs and coached athletes to improve technique, strategy, and competitive mindset.',
+            'item4.title': 'Equipment Section Member', 'item4.org': 'Albin Leadership Training — OSISMPK Albin',
+            'item4.desc': 'Coordinated logistics readiness and equipment condition before and during the event.',
+            'item5.title': 'Silver Medal in Informatics', 'item5.org': 'Prestasi Maju Indonesia',
+            'item6.title': 'Electrical Member — Aterkia ASV Program', 'item6.org': 'Undip Robotics Development Center · Semarang',
+            'item6.desc': 'Integrated hardware and software for the boat robot, and conducted cross-division research to optimize ASV performance.',
+            'item7.title': 'Finance & Economy Division Member', 'item7.org': 'UKM Taekwondo Undip · Semarang',
+            'item7.desc': "Managed the club's cash flow and liaised with sponsors for training and competition needs.",
+            'item8.title': 'Universitas Diponegoro', 'item8.org': 'Bachelor of Informatics · GPA 3.88/4.00',
+            'item8.desc': '*Expected graduation.',
+            'item9.title': 'Security Division Member', 'item9.org': 'Keluarga Mahasiswa Banten — KMB Roadshow · South Tangerang',
+            'item9.desc': 'Coordinated on-site committee members to keep to the run-of-show, and logged attendance and event evaluations.',
+            'webinars.label': 'Verified Seminars & Training',
+            webinar1: 'LKMM-PD Informatics Undip Program · 2025',
+            webinar2: 'GORe FSM Undip · 2025',
+            'projects.eyebrow': '03 · PROJECTS',
+            'projects.title': 'Featured Projects',
+            'projects.lede': 'Three web platforms built and published, both independently and as part of a team.',
+            'proj1.desc': 'A computer vision platform for the Aterkia ASV team boat robot, used to monitor vessel status in real time.',
+            'proj2.desc': 'A platform for quickly converting documents between formats through a simple interface.',
+            'proj3.desc': 'A multi-role marketplace platform — connecting Buyer, Seller, and Driver within one ecosystem. Built individually as an admission requirement for COMPFEST 18 Software Engineering Academy.',
+            'proj.demo': 'Demo', 'proj.code': 'Code',
+            'contact.eyebrow': '04 · CONTACT',
+            'contact.title': "Let's Connect",
+            'contact.lede': 'Open to discussion, project collaboration, and internship opportunities. Feel free to reach out through the channels below.',
+            copied: 'Copied!',
+            'footer.built': 'Built with HTML, CSS & JavaScript',
+            'aria.closePanel': 'Close detail panel',
+            'panel.badge.web-asv': 'Team — Electrical Division',
+            'panel.badge.convertly': 'Individual Project',
+            'panel.badge.seapedia': 'Individual — Academy Selection',
+        },
+    };
+
+    let currentLang = 'id';
+    try {
+        const saved = localStorage.getItem('ibnu-portfolio-lang');
+        if (saved === 'id' || saved === 'en') currentLang = saved;
+    } catch (e) { console.log('localStorage unavailable, defaulting to id'); }
+
+    let currentPanelCard = null;
+
+    function getText(key) {
+        return (I18N[currentLang] && I18N[currentLang][key] !== undefined) ? I18N[currentLang][key] : (I18N.id[key] || '');
+    }
+
+    function applyLanguage(lang) {
+        currentLang = (lang === 'en') ? 'en' : 'id';
+        html.setAttribute('lang', currentLang);
+        try { localStorage.setItem('ibnu-portfolio-lang', currentLang); } catch (e) { /* ignore */ }
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+            const key = el.getAttribute('data-i18n');
+            if (I18N[currentLang][key] !== undefined) el.textContent = getText(key);
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+            const key = el.getAttribute('data-i18n-html');
+            if (I18N[currentLang][key] !== undefined) el.innerHTML = getText(key);
+        });
+        document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+            const key = el.getAttribute('data-i18n-aria');
+            if (I18N[currentLang][key] !== undefined) el.setAttribute('aria-label', getText(key));
+        });
+        document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+            const key = el.getAttribute('data-i18n-alt');
+            if (I18N[currentLang][key] !== undefined) el.setAttribute('alt', getText(key));
+        });
+
+        document.title = getText('meta.title');
+        const descEl = document.getElementById('pageDesc');
+        const ogTitleEl = document.getElementById('ogTitle');
+        const ogDescEl = document.getElementById('ogDesc');
+        if (descEl) descEl.setAttribute('content', getText('meta.desc'));
+        if (ogTitleEl) ogTitleEl.setAttribute('content', getText('meta.title'));
+        if (ogDescEl) ogDescEl.setAttribute('content', getText('meta.ogDesc'));
+
+        const toggle = document.getElementById('langToggle');
+        if (toggle) toggle.classList.toggle('is-en', currentLang === 'en');
+
+        const typedEl = document.getElementById('typedStatus');
+        if (typedEl && typedEl.dataset.done === 'true') typedEl.textContent = getText('hero.status');
+
+        if (currentPanelCard && document.getElementById('projectPanel')?.classList.contains('is-open')) {
+            populatePanel(currentPanelCard);
+        }
+    }
+    applyLanguage(currentLang);
+
+    //    REVEAL-ON-SCROLL SYSTEM
     html.classList.add('reveal-ready');
 
     function stagger(containerSelector, itemSelector, step) {
@@ -18,12 +217,24 @@
     stagger('.about__skills', '.skills__group', 120);
     stagger('.timeline', '.timeline-item', 60);
     stagger('.projects__grid', '.project-card', 120);
-    stagger('.achievements__grid', '.achievement-card', 70);
+
+    function revealElement(el) {
+        if (hasAnime && !prefersReducedMotion) {
+            el.style.transition = 'none';
+            anime.animate(el, {
+                opacity: [0, 1],
+                translateY: [34, 0],
+                duration: 900,
+                ease: 'outExpo',
+            });
+        }
+        el.classList.add('is-visible');
+    }
 
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+                revealElement(entry.target);
                 revealObserver.unobserve(entry.target);
             }
         });
@@ -35,19 +246,45 @@
     function revealHero() {
         if (heroRevealed) return;
         heroRevealed = true;
-        document.querySelectorAll('.hero-reveal').forEach((item) => item.classList.add('is-visible'));
+        document.querySelectorAll('.hero-reveal:not(.hero__name)').forEach((item) => revealElement(item));
+        animateHeroName(document.querySelector('.hero__name'));
         startTypewriter();
     }
     // Safety net: if preloader logic is somehow skipped, still reveal hero.
     window.addEventListener('load', revealHero);
 
     /* ============================================================
-       TYPEWRITER — hero status line
+       HERO NAME — staggered word entrance via Anime.js text-split.
+       Falls back to the plain whole-block reveal used by every other
+       hero element when Anime.js or motion isn't available.
        ============================================================ */
+    function animateHeroName(nameEl) {
+        if (!nameEl) return;
+        if (hasAnime && !prefersReducedMotion) {
+            try {
+                nameEl.style.transition = 'none';
+                nameEl.style.opacity = '1';
+                nameEl.style.transform = 'none';
+                const splitter = anime.text.split(nameEl, { words: true, chars: false, lines: false });
+                anime.animate(splitter.words, {
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 750,
+                    delay: anime.stagger(70),
+                    ease: 'outExpo',
+                });
+                nameEl.classList.add('is-visible');
+                return;
+            } catch (e) { /* fall through to plain reveal below */ }
+        }
+        revealElement(nameEl);
+    }
+
+    //    TYPEWRITER — hero status line
     function startTypewriter() {
         const typedEl = document.getElementById('typedStatus');
         if (!typedEl || typedEl.dataset.done) return;
-        const fullText = 'Mahasiswa Informatika — Universitas Diponegoro';
+        const fullText = getText('hero.status');
 
         if (prefersReducedMotion) {
             typedEl.textContent = fullText;
@@ -65,9 +302,7 @@
         setTimeout(typeChar, 500);
     }
 
-    /* ============================================================
-       PRELOADER
-       ============================================================ */
+    //    PRELOADER
     const preloader = document.getElementById('preloader');
     const preloaderFill = document.getElementById('preloaderFill');
     const preloaderPct = document.getElementById('preloaderPct');
@@ -93,15 +328,25 @@
         hidePreloader();
     }
 
-    /* ============================================================
-       ANIMATED COUNTERS (about stats)
-       ============================================================ */
+    //    ANIMATED COUNTERS (about stats)
     function animateCounter(el) {
         const target = parseFloat(el.getAttribute('data-target'));
         const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
 
         if (prefersReducedMotion) {
             el.textContent = target.toFixed(decimals);
+            return;
+        }
+
+        if (hasAnime) {
+            const counter = { value: 0 };
+            anime.animate(counter, {
+                value: target,
+                duration: 1300,
+                ease: 'outExpo',
+                onUpdate: () => { el.textContent = counter.value.toFixed(decimals); },
+                onComplete: () => { el.textContent = target.toFixed(decimals); },
+            });
             return;
         }
 
@@ -126,6 +371,222 @@
         });
     }, { threshold: 0.6 });
     document.querySelectorAll('.stat__value').forEach((el) => statObserver.observe(el));
+
+    /* ============================================================
+       LANGUAGE TOGGLE
+       ============================================================ */
+    const langToggle = document.getElementById('langToggle');
+    if (langToggle) {
+        langToggle.addEventListener('click', () => {
+            applyLanguage(currentLang === 'id' ? 'en' : 'id');
+        });
+    }
+
+    /* ============================================================
+       TIMELINE CATEGORY FILTER
+       ============================================================ */
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const filterableItems = document.querySelectorAll('.timeline-item');
+    const timelineEmptyMsg = document.getElementById('timelineEmpty');
+
+    filterChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+            const filter = chip.getAttribute('data-filter');
+            filterChips.forEach((c) => c.classList.toggle('is-active', c === chip));
+
+            let visibleCount = 0;
+            filterableItems.forEach((item) => {
+                const match = filter === 'all' || item.getAttribute('data-category') === filter;
+                item.classList.toggle('is-filtered-out', !match);
+                if (match) visibleCount += 1;
+            });
+
+            if (timelineEmptyMsg) timelineEmptyMsg.hidden = visibleCount > 0;
+            updateScrollEffects();
+        });
+    });
+
+    /* ============================================================
+       PROJECT DETAIL PANEL
+       Slides in from the right rather than a centered modal — reads
+       like a mission-control detail readout, matching the rest of
+       the site. Content is populated by cloning from the clicked
+       card, so the card markup stays the single source of truth.
+       ============================================================ */
+    const projectPanel = document.getElementById('projectPanel');
+    const projectPanelClose = document.getElementById('projectPanelClose');
+    const projectPanelBackdrop = document.getElementById('projectPanelBackdrop');
+
+    function populatePanel(card) {
+        currentPanelCard = card;
+        const id = card.getAttribute('data-project');
+
+        const visualEl = document.getElementById('panelVisual');
+        visualEl.innerHTML = '';
+
+        const previewVideoSrc = card.dataset.previewVideo;
+        const previewPoster = card.dataset.previewPoster;
+        const cardVideo = card.querySelector('.project-card__visual video');
+        const cardImg = card.querySelector('.project-card__visual img');
+        const cardSvg = card.querySelector('.project-card__visual svg');
+
+        if (previewVideoSrc) {
+            const video = document.createElement('video');
+            video.src = previewVideoSrc;
+            if (previewPoster) video.poster = previewPoster;
+            video.controls = false;
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.disablePictureInPicture = true;
+            video.controlsList = 'nodownload nofullscreen noremoteplayback';
+            video.className = 'project-panel__preview';
+            video.setAttribute('aria-hidden', 'true');
+            video.addEventListener('error', () => {
+                if (video.isConnected) video.remove();
+                if (cardSvg) visualEl.appendChild(cardSvg.cloneNode(true));
+                else if (cardImg) visualEl.appendChild(cardImg.cloneNode(true));
+            }, { once: true });
+            visualEl.appendChild(video);
+            video.play().catch(() => {});
+        } else if (cardVideo) {
+            const clone = cardVideo.cloneNode(true);
+            clone.controls = false;
+            clone.autoplay = true;
+            clone.loop = true;
+            clone.muted = true;
+            clone.playsInline = true;
+            clone.disablePictureInPicture = true;
+            clone.controlsList = 'nodownload nofullscreen noremoteplayback';
+            clone.className = 'project-panel__preview';
+            clone.setAttribute('aria-hidden', 'true');
+            visualEl.appendChild(clone);
+            clone.play().catch(() => {});
+        } else if (cardImg) {
+            visualEl.appendChild(cardImg.cloneNode(true));
+        } else if (cardSvg) {
+            visualEl.appendChild(cardSvg.cloneNode(true));
+        }
+
+        const titleSource = card.querySelector('.project-card__body > h3');
+        document.getElementById('panelTitle').textContent = titleSource ? titleSource.textContent.trim() : '';
+
+        const descSource = card.querySelector('.project-card__body > p');
+        document.getElementById('panelDesc').textContent = descSource ? descSource.textContent.trim() : '';
+
+        document.getElementById('panelBadge').textContent = getText('panel.badge.' + id);
+
+        const tagsWrap = document.getElementById('panelTags');
+        tagsWrap.innerHTML = '';
+        card.querySelectorAll('.project-card__tags .tag').forEach((tag) => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.textContent = tag.textContent;
+            tagsWrap.appendChild(span);
+        });
+
+        const linksWrap = document.getElementById('panelLinks');
+        linksWrap.innerHTML = '';
+        card.querySelectorAll('.project-card__links a').forEach((link) => {
+            const clone = link.cloneNode(true);
+            clone.classList.remove('project-link', 'project-link--demo', 'project-link--repo');
+            clone.classList.add('btn', link.classList.contains('project-link--demo') ? 'btn-primary' : 'btn-outline');
+            linksWrap.appendChild(clone);
+        });
+    }
+
+    function getPanelFocusables() {
+        return Array.from(projectPanel.querySelectorAll('a, button')).filter((el) => el.offsetParent !== null);
+    }
+
+    function onPanelKeydown(e) {
+        if (e.key === 'Escape') {
+            closeProjectDetail();
+            return;
+        }
+        if (e.key === 'Tab') {
+            const focusables = getPanelFocusables();
+            if (!focusables.length) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    }
+
+    let panelOpenerEl = null;
+
+    const inertTargets = ['#topbar', '.dot-nav', '#backToTop', '#konten-utama', '.site-footer']
+        .map((sel) => document.querySelector(sel))
+        .filter(Boolean);
+
+    function openProjectDetail(card) {
+        panelOpenerEl = card;
+        populatePanel(card);
+        projectPanel.classList.add('is-open');
+        projectPanel.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        inertTargets.forEach((el) => { el.inert = true; });
+        document.addEventListener('keydown', onPanelKeydown);
+        (projectPanelClose || projectPanel).focus();
+    }
+
+    function closeProjectDetail() {
+        projectPanel.classList.remove('is-open');
+        projectPanel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        inertTargets.forEach((el) => { el.inert = false; });
+        document.removeEventListener('keydown', onPanelKeydown);
+        const panelVideo = document.querySelector('.project-panel__preview');
+        if (panelVideo) {
+            panelVideo.pause();
+            panelVideo.removeAttribute('src');
+            panelVideo.load();
+        }
+        if (panelOpenerEl) panelOpenerEl.focus();
+    }
+
+    if (projectPanel) {
+        if (projectPanelClose) projectPanelClose.addEventListener('click', closeProjectDetail);
+        if (projectPanelBackdrop) projectPanelBackdrop.addEventListener('click', closeProjectDetail);
+
+        document.querySelectorAll('.project-card[data-project]').forEach((card) => {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.project-card__links')) return;
+                openProjectDetail(card);
+            });
+            card.addEventListener('keydown', (e) => {
+                if (e.target.closest('.project-card__links')) return;
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openProjectDetail(card);
+                }
+            });
+        });
+    }
+
+    /* ============================================================
+       COPY TO CLIPBOARD (email / WhatsApp)
+       ============================================================ */
+    document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const value = btn.getAttribute('data-copy-value');
+            if (!value || !navigator.clipboard) return;
+            navigator.clipboard.writeText(value).then(() => {
+                btn.classList.add('is-copied');
+                clearTimeout(btn._copyTimeout);
+                btn._copyTimeout = setTimeout(() => btn.classList.remove('is-copied'), 1800);
+            }).catch(() => { /* clipboard unavailable — silently ignore, link buttons still work */ });
+        });
+    });
 
     /* ============================================================
        LIVE CLOCK — Asia/Jakarta (WIB)
@@ -281,6 +742,35 @@
             });
             card.addEventListener('mouseleave', () => { card.style.transform = ''; });
         });
+    }
+
+    /* ============================================================
+       SVG MOTION (Anime.js) — satellite orbit, radar sweep, and the
+       marketplace packet-in-transit. These were SMIL-driven before;
+       Anime.js gives the same continuous loops with one engine and
+       consistent reduced-motion handling. If Anime.js didn't load,
+       these elements simply stay static — still legible, nothing
+       breaks (see the CSS reduced-motion rules for the static state).
+       ============================================================ */
+    if (hasAnime && !prefersReducedMotion) {
+        const satelliteEl = document.getElementById('ringSatellite');
+        if (satelliteEl) {
+            anime.animate(satelliteEl, { rotate: 360, duration: 14000, loop: true, ease: 'linear' });
+        }
+        const radarSweepEl = document.getElementById('radarSweep');
+        if (radarSweepEl) {
+            anime.animate(radarSweepEl, { rotate: 360, duration: 4000, loop: true, ease: 'linear' });
+        }
+        const marketRouteEl = document.getElementById('marketRoute');
+        const marketPacketEl = document.getElementById('marketPacket');
+        if (marketRouteEl && marketPacketEl) {
+            anime.animate(marketPacketEl, {
+                ...anime.svg.createMotionPath(marketRouteEl),
+                duration: 6000,
+                loop: true,
+                ease: 'linear',
+            });
+        }
     }
 
     /* ============================================================
