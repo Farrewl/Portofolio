@@ -1,0 +1,336 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --coral: #fd796c;
+    --coral-dark: #ca6155;
+    --peach: #feba8b;
+    --ink: #2e2f31;
+    --outline: #1e1f21;
+    --gray: #444547;
+    --white: #ffffff;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: #0b0a0c;
+    color: #f5f5f7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html.light {
+    --glass-bg: rgba(240, 240, 245, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.65);
+    --text: #1c1c1e;
+    --text-dim: #6e6e73;
+  }
+  html:not(.light) {
+    --glass-bg: rgba(22, 22, 26, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.22);
+    --text: #f5f5f7;
+    --text-dim: #9a9aa1;
+  }
+
+  body {
+    --glass-bg: rgba(22, 22, 26, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.22);
+    --text: #f5f5f7;
+    --text-dim: #9a9aa1;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(253, 121, 108, 0.5) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(253, 121, 108, 0.35);
+    border-radius: 3px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::selection {
+    background: rgba(253, 121, 108, 0.85);
+    color: #000;
+  }
+}
+
+@layer components {
+  .font-pixel {
+    font-family: 'Silkscreen', 'Courier New', monospace;
+    image-rendering: pixelated;
+  }
+  .font-term {
+    font-family: 'VT323', monospace;
+    image-rendering: pixelated;
+    font-size: 28px;
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    box-shadow:
+      0 18px 50px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  }
+
+  html.lite .glass,
+  html.lite [data-glass] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(18, 18, 20, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .window-shell {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-radius: 12px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+  }
+  .window-shell.is-focused {
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+    box-shadow:
+      0 28px 80px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(253, 121, 108, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+  .window-shell:not(.is-focused) {
+    background: rgba(22, 22, 25, 0.88);
+  }
+
+  .stepped {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 6px) 0,
+      100% 6px,
+      100% 100%,
+      6px calc(100% - 6px),
+      0 calc(100% - 6px)
+    );
+  }
+
+  @keyframes windowIn {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes windowOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+  }
+  @keyframes windowMin {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.4) translateY(40vh);
+    }
+  }
+
+  .window-anim {
+    animation: windowIn 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.15) backwards;
+    transform-origin: center;
+  }
+  .window-anim.minimizing {
+    animation: windowMin 0.18s ease forwards;
+  }
+  .window-anim.closing {
+    animation: windowOut 0.16s ease forwards;
+  }
+
+  @keyframes dockBounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-8px);
+    }
+    60% {
+      transform: translateY(-3px);
+    }
+  }
+}
+
+@layer utilities {
+  .animate-window-in {
+    animation: windowIn 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.15) backwards;
+  }
+}
+
+/* ---- Boot screen ---- */
+@keyframes bootPeek {
+  0%,
+  100% {
+    transform: translate(-50%, 7px);
+  }
+  45% {
+    transform: translate(-50%, -5px);
+  }
+  55% {
+    transform: translate(-50%, -5px);
+  }
+}
+
+@keyframes bootBlink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  92%,
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+
+.boot-robot {
+  animation: bootPeek 3.6s ease-in-out infinite;
+  will-change: transform;
+  image-rendering: pixelated;
+}
+
+.boot-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bootBlink 4.2s steps(1, end) infinite;
+}
+
+.boot-grid {
+  background-image:
+    linear-gradient(rgba(253, 121, 108, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(253, 121, 108, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-robot,
+  .boot-eye {
+    animation: none;
+  }
+}
+
+/* ---- macOS-ish glass surfaces ---- */
+.menubar-glass {
+  background: linear-gradient(180deg, rgba(30, 30, 34, 0.72), rgba(15, 15, 18, 0.58));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.dock-glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+html.lite .menubar-glass,
+html.lite .dock-glass {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(18, 18, 20, 0.94);
+}
+
+/* ---- Mascot sprite sheet ---- */
+.mascot-sprite {
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  image-rendering: pixelated;
+}
+
+@keyframes mascotIdle {
+  0%,
+  49.99% {
+    background-position: 0 0;
+  }
+  50%,
+  100% {
+    background-position: calc(var(--fw) * -1) 0;
+  }
+}
+
+@keyframes mascotWalk {
+  0%,
+  49.99% {
+    background-position: calc(var(--fw) * -2) 0;
+  }
+  50%,
+  100% {
+    background-position: calc(var(--fw) * -3) 0;
+  }
+}
+
+.anim-idle {
+  animation: mascotIdle 1.4s steps(1, end) infinite;
+}
+
+.anim-walk {
+  animation: mascotWalk 0.3s steps(1, end) infinite;
+}
+
+.frame-wave {
+  background-position: calc(var(--fw) * -4) 0;
+}
+
+.frame-dizzy {
+  background-position: calc(var(--fw) * -5) 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-idle,
+  .anim-walk {
+    animation: none;
+  }
+}
+
+
+/* Accessibility: Focus rings */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Allow: /simple
+Sitemap: https://ibnufarrel.dev/sitemap.xml
